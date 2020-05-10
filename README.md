@@ -4,9 +4,10 @@
 
 当你需要连接多种设备、同时连接的时候甚至是需要处理一些响应和粘包问题的时候可以试试这个库。
 
+[![language](https://img.shields.io/badge/language-kotlin-brightgreen)](https://kotlinlang.org/)
 [![LICENSE](https://img.shields.io/badge/license-Anti%20996-blue.svg)](https://github.com/996icu/996.ICU/blob/master/LICENSE)
 
-### 零、特性
+### 特性
 
 * 多设备连接：可同时连接多设备蓝牙；多线程处理蓝牙连接，更高效
 * 脱离UI：可脱离UI生命周期的蓝牙连接管理
@@ -14,7 +15,7 @@
 * 高扩展性：io流读取封装，实现了常见数据类型的解析，支持自定义数据模型解析使业务放更关注业务逻辑
 * 常见场景支持：支持消息队列、延迟消息、阻塞式等待消息响应、io流数据粘包拆分等
 
-### 一、开袋即食
+### 开袋即食
 
 ```kotlin
 // 根据地址获取该设备的任务
@@ -31,7 +32,7 @@ task.sendMessage(byteArrayOf(0x1,0x2,0x3,0x4,0x5))
 task.sendMessage(SimpleMessage("Hello Beartooth！") + 100L)
 ```
 
-### 二、详细使用方式
+### 详细使用方式
 
 #### 1.创建数据解析的模型
 
@@ -57,9 +58,9 @@ class DefCommand(
 
 ```kotlin
 class DefCommandAdapter : DataAdapter<DefCommand> {
-		// 注册适配器类型
+    // 注册适配器类型
     override fun getType(): Type = DefCommand::class.java
-		// 适配数据转换：ByteArray=>目标数据类型
+    // 适配数据转换：ByteArray=>目标数据类型
     override fun convert(rawData: ByteArray): DefCommand {
         try {
             val dataLength = byteArrayOf(0x00, 0x00, rawData[2], rawData[3])
@@ -88,11 +89,11 @@ class DefCommandAdapter : DataAdapter<DefCommand> {
 ```kotlin
 class LampTask(address: String) : BtTask<DefCommand>(address) {
 
-		// 由于设备返回数据一般不会一下返回，我们需要对多次的数据包检查，是否是完整数据了。
+    // 由于设备返回数据一般不会一下返回，我们需要对多次的数据包检查，是否是完整数据了。
     override fun checkDataEnd(data: ByteArray): Boolean {
         return data[data.size - 1] == LampCmd.SUFFIX
     }
-		//  注册数据转换的适配器，如果是框架已实现的数据类型可不实现这个函数
+    //  注册数据转换的适配器，如果是框架已实现的数据类型可不实现这个函数
     override fun registerAdapter():DataAdapter<DefCommand>{
         return DefCommandAdapter()
     }
@@ -247,10 +248,6 @@ L.setDelegate(object : ILog {
 
 })
 ```
-
-
-#### 开源协议
-
 
 
 #### TODO LIST
