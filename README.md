@@ -257,6 +257,7 @@ L.setDelegate(object : ILog {
 * accept模式API
 * 线程休眠阻塞时间性能优化
 * 并发情况支持
+* 协程支持
 
 
 
